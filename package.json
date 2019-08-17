@@ -23,6 +23,7 @@
     "@angular/router": "^8.0.3",
     "@types/d3": "^5.7.2",
     "@types/lodash": "^4.14.137",
+    "anychart": "^8.7.0",
     "bootstrap": "^3.4.1",
     "d3": "^5.9.7",
     "lodash": "^4.17.15",

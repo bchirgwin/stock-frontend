@@ -1,35 +1,34 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+
+/// <reference types="anychart" />
+import 'anychart';
 
 @Component({
   selector: 'app-candlestick-chart',
   templateUrl: './candlestick-chart.component.html',
   styleUrls: ['./candlestick-chart.component.css']
 })
-export class CandlestickChartComponent implements OnInit, AfterContentInit {
+export class CandlestickChartComponent {
+  @ViewChild('chartContainer', { static: true }) container;
 
-  constructor() { }
+  data = [
+    [Date.UTC(2007, 12, 23), 23.55, 23.88, 23.38, 23.62],
+    [Date.UTC(2007, 12, 24), 22.65, 23.7, 22.65, 23.36]
+  ];
 
-  ngOnInit() {
+  //https://docs.anychart.com/Basic_Charts/Japanese_Candlestick_Chart
+  chart = anychart.candlestick(this.data);
+
+  ngAfterViewInit() {
+    var axis = this.chart.xAxis();
+
+    var labels = axis.labels();
+    labels.format(function() {
+      return anychart.format.dateTime(this.value);
+    });
+
+    this.chart.title('Add Candlestick series to a chart');
+    this.chart.container('chartContainer');
+    this.chart.draw();
   }
-
-  ngAfterContentInit() {
-    this.loadScripts();
-  }
-
-  loadScripts() {
-    const dynamicScripts = [
-      'https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js',
-      'https://d3js.org/d3.v5.min.js',
-      'http://localhost:4200/assets/script.js'
-    ];
-    for (let i = 0; i < dynamicScripts.length; i++) {
-      const node = document.createElement('script');
-      node.src = dynamicScripts[i];
-      node.type = 'text/javascript';
-      node.async = false;
-      node.charset = 'utf-8';
-      document.getElementsByTagName('head')[0].appendChild(node);
-    }
-  }
-
 }
