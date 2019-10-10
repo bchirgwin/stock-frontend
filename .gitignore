@@ -8,3 +8,6 @@
 *.sublime-workspace
 node_modules
 .DS_Store
+
+# Database files
+server/vols

@@ -1,0 +1,27 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  web-app:
+    build: .
+    ports:
+      - '3000:3000'
+
+  db-docker:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      #PGPORT default: 5432
+      PGPORT: 5432
+    volumes:
+      - ~/Documents/docker/ex-postgres/vols/postgres/data:/var/lib/postgresql/data
+    ports:
+      #Default for outside:inside is 5432:5432
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
