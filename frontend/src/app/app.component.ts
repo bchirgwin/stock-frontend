@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import {StoreService} from './store.service';
 
 interface DataModel {
   letter: string;
@@ -21,6 +22,8 @@ export class AppComponent implements AfterContentInit {
   data: Observable<DataModel>;
   count: any = 0;
 
+  stocks: any;
+
   /*Create fake data from various sources*/
   /*eventually make into a service*/
   mockFromJson: Stock[] = require('../../data.json');
@@ -33,6 +36,12 @@ export class AppComponent implements AfterContentInit {
   ];
   mockdata = [...MOCKDATA, ...this.moreMockdata, ...this.mockFromJson];
 
+  constructor(private storeService: StoreService) {
+    this.storeService.selectStock('A')
+      .subscribe(data => {
+        this.stocks = data;
+      });
+  }
   // constructor(private http: HttpClient) {
   //   this.data = this.http
   //     .get<DataModel>('./assets/data.json')
